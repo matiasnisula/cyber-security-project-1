@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>App</title>
+    </head>
+
+    <body>
+		<h1>Message App</h1>
+
+        <table>
+		<tr>
+		<th style="text-align:left">Username: <td>{{user.username}} 
+		</table>
+
+
+        <form action='/logout/' method="POST">
+			{% csrf_token %}
+            <input type="submit" value="Logout"/>
+        </form>
+		
+        <h2>Publications</h2>
+
+		{% for pub in publications %}
+		<i>Publisher: {{pub.publisher.username}}</i></br>
+		{{pub.content|safe}}
+		</br>
+        {% if user.id == pub.publisher_id %}
+            <a href="delete/{{ pub.id }}">Delete</a>
+        {% endif %}
+        </br>
+        </br>
+		{% endfor %}
+
+
+        <h2>Publish text</h2>
+
+        <form action='add/' method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>Content:</p>
+			<textarea name="content" cols="40" rows="5"></textarea><br/>
+            <input type="submit" value="Send"/>
+        </form>
+    </body>
+
+
+    </body>
+</html>
